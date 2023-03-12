@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  "lib": ["es2015"],
+  "files": ["src/lib/next-auth.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}
