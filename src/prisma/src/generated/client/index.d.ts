@@ -70,9 +70,10 @@ export type VerificationToken = {
  */
 export type Conversation = {
   id: string
-  latestMessageId: string
+  latestMessageId: string | null
   createdAt: Date
   updatedAt: Date
+  helloWorld: string
 }
 
 /**
@@ -5093,6 +5094,7 @@ export namespace Prisma {
     latestMessageId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    helloWorld: string | null
   }
 
   export type ConversationMaxAggregateOutputType = {
@@ -5100,6 +5102,7 @@ export namespace Prisma {
     latestMessageId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    helloWorld: string | null
   }
 
   export type ConversationCountAggregateOutputType = {
@@ -5107,6 +5110,7 @@ export namespace Prisma {
     latestMessageId: number
     createdAt: number
     updatedAt: number
+    helloWorld: number
     _all: number
   }
 
@@ -5116,6 +5120,7 @@ export namespace Prisma {
     latestMessageId?: true
     createdAt?: true
     updatedAt?: true
+    helloWorld?: true
   }
 
   export type ConversationMaxAggregateInputType = {
@@ -5123,6 +5128,7 @@ export namespace Prisma {
     latestMessageId?: true
     createdAt?: true
     updatedAt?: true
+    helloWorld?: true
   }
 
   export type ConversationCountAggregateInputType = {
@@ -5130,6 +5136,7 @@ export namespace Prisma {
     latestMessageId?: true
     createdAt?: true
     updatedAt?: true
+    helloWorld?: true
     _all?: true
   }
 
@@ -5208,9 +5215,10 @@ export namespace Prisma {
 
   export type ConversationGroupByOutputType = {
     id: string
-    latestMessageId: string
+    latestMessageId: string | null
     createdAt: Date
     updatedAt: Date
+    helloWorld: string
     _count: ConversationCountAggregateOutputType | null
     _min: ConversationMinAggregateOutputType | null
     _max: ConversationMaxAggregateOutputType | null
@@ -5235,6 +5243,7 @@ export namespace Prisma {
     latestMessageId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    helloWorld?: boolean
     messages?: boolean | Conversation$messagesArgs
     latestMessage?: boolean | MessageArgs
     participants?: boolean | Conversation$participantsArgs
@@ -8155,7 +8164,8 @@ export namespace Prisma {
     id: 'id',
     latestMessageId: 'latestMessageId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    helloWorld: 'helloWorld'
   };
 
   export type ConversationScalarFieldEnum = (typeof ConversationScalarFieldEnum)[keyof typeof ConversationScalarFieldEnum]
@@ -8454,9 +8464,10 @@ export namespace Prisma {
     OR?: Enumerable<ConversationWhereInput>
     NOT?: Enumerable<ConversationWhereInput>
     id?: StringFilter | string
-    latestMessageId?: StringFilter | string
+    latestMessageId?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
+    helloWorld?: StringFilter | string
     messages?: MessageListRelationFilter
     latestMessage?: XOR<MessageRelationFilter, MessageWhereInput> | null
     participants?: ConversationParticipantListRelationFilter
@@ -8467,6 +8478,7 @@ export namespace Prisma {
     latestMessageId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    helloWorld?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
     latestMessage?: MessageOrderByWithRelationInput
     participants?: ConversationParticipantOrderByRelationAggregateInput
@@ -8482,6 +8494,7 @@ export namespace Prisma {
     latestMessageId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    helloWorld?: SortOrder
     _count?: ConversationCountOrderByAggregateInput
     _max?: ConversationMaxOrderByAggregateInput
     _min?: ConversationMinOrderByAggregateInput
@@ -8492,9 +8505,10 @@ export namespace Prisma {
     OR?: Enumerable<ConversationScalarWhereWithAggregatesInput>
     NOT?: Enumerable<ConversationScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    latestMessageId?: StringWithAggregatesFilter | string
+    latestMessageId?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    helloWorld?: StringWithAggregatesFilter | string
   }
 
   export type ConversationParticipantWhereInput = {
@@ -8869,6 +8883,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     messages?: MessageCreateNestedManyWithoutConversationInput
     latestMessage?: MessageCreateNestedOneWithoutIsLatestInInput
     participants?: ConversationParticipantCreateNestedManyWithoutConversationInput
@@ -8876,9 +8891,10 @@ export namespace Prisma {
 
   export type ConversationUncheckedCreateInput = {
     id?: string
-    latestMessageId: string
+    latestMessageId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
     participants?: ConversationParticipantUncheckedCreateNestedManyWithoutConversationInput
   }
@@ -8886,35 +8902,40 @@ export namespace Prisma {
   export type ConversationUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     messages?: MessageUpdateManyWithoutConversationNestedInput
     latestMessage?: MessageUpdateOneWithoutIsLatestInNestedInput
     participants?: ConversationParticipantUpdateManyWithoutConversationNestedInput
   }
 
   export type ConversationUncheckedUpdateInput = {
-    latestMessageId?: StringFieldUpdateOperationsInput | string
+    latestMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
     participants?: ConversationParticipantUncheckedUpdateManyWithoutConversationNestedInput
   }
 
   export type ConversationCreateManyInput = {
     id?: string
-    latestMessageId: string
+    latestMessageId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
   }
 
   export type ConversationUpdateManyMutationInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConversationUncheckedUpdateManyInput = {
-    latestMessageId?: StringFieldUpdateOperationsInput | string
+    latestMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConversationParticipantCreateInput = {
@@ -9364,6 +9385,7 @@ export namespace Prisma {
     latestMessageId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    helloWorld?: SortOrder
   }
 
   export type ConversationMaxOrderByAggregateInput = {
@@ -9371,6 +9393,7 @@ export namespace Prisma {
     latestMessageId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    helloWorld?: SortOrder
   }
 
   export type ConversationMinOrderByAggregateInput = {
@@ -9378,6 +9401,7 @@ export namespace Prisma {
     latestMessageId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    helloWorld?: SortOrder
   }
 
   export type BoolFilter = {
@@ -10535,15 +10559,17 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     messages?: MessageCreateNestedManyWithoutConversationInput
     latestMessage?: MessageCreateNestedOneWithoutIsLatestInInput
   }
 
   export type ConversationUncheckedCreateWithoutParticipantsInput = {
     id?: string
-    latestMessageId: string
+    latestMessageId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
   }
 
@@ -10587,14 +10613,16 @@ export namespace Prisma {
   export type ConversationUpdateWithoutParticipantsInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     messages?: MessageUpdateManyWithoutConversationNestedInput
     latestMessage?: MessageUpdateOneWithoutIsLatestInNestedInput
   }
 
   export type ConversationUncheckedUpdateWithoutParticipantsInput = {
-    latestMessageId?: StringFieldUpdateOperationsInput | string
+    latestMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
   }
 
@@ -10602,15 +10630,17 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     latestMessage?: MessageCreateNestedOneWithoutIsLatestInInput
     participants?: ConversationParticipantCreateNestedManyWithoutConversationInput
   }
 
   export type ConversationUncheckedCreateWithoutMessagesInput = {
     id?: string
-    latestMessageId: string
+    latestMessageId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     participants?: ConversationParticipantUncheckedCreateNestedManyWithoutConversationInput
   }
 
@@ -10652,6 +10682,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     messages?: MessageCreateNestedManyWithoutConversationInput
     participants?: ConversationParticipantCreateNestedManyWithoutConversationInput
   }
@@ -10660,6 +10691,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    helloWorld: string
     messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
     participants?: ConversationParticipantUncheckedCreateNestedManyWithoutConversationInput
   }
@@ -10677,14 +10709,16 @@ export namespace Prisma {
   export type ConversationUpdateWithoutMessagesInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     latestMessage?: MessageUpdateOneWithoutIsLatestInNestedInput
     participants?: ConversationParticipantUpdateManyWithoutConversationNestedInput
   }
 
   export type ConversationUncheckedUpdateWithoutMessagesInput = {
-    latestMessageId?: StringFieldUpdateOperationsInput | string
+    latestMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     participants?: ConversationParticipantUncheckedUpdateManyWithoutConversationNestedInput
   }
 
@@ -10723,6 +10757,7 @@ export namespace Prisma {
   export type ConversationUpdateWithoutLatestMessageInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     messages?: MessageUpdateManyWithoutConversationNestedInput
     participants?: ConversationParticipantUpdateManyWithoutConversationNestedInput
   }
@@ -10730,6 +10765,7 @@ export namespace Prisma {
   export type ConversationUncheckedUpdateWithoutLatestMessageInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    helloWorld?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
     participants?: ConversationParticipantUncheckedUpdateManyWithoutConversationNestedInput
   }
