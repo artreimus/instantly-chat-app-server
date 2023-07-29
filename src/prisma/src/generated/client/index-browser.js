@@ -4,7 +4,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const {
   Decimal,
   objectEnumValues,
-  makeStrictEnum
+  makeStrictEnum,
+  Public,
 } = require('./runtime/index-browser')
 
 
@@ -13,12 +14,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 4.11.0
- * Query Engine version: 8fde8fef4033376662cad983758335009d522acb
+ * Prisma Client JS version: 4.16.2
+ * Query Engine version: 4bc8b6e1b66cb932731fb1bdbbc550d1e010de81
  */
 Prisma.prismaVersion = {
-  client: "4.11.0",
-  engine: "8fde8fef4033376662cad983758335009d522acb"
+  client: "4.16.2",
+  engine: "4bc8b6e1b66cb932731fb1bdbbc550d1e010de81"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -66,8 +67,19 @@ Prisma.raw = () => {
   throw new Error(`raw is unable to be run in the browser.
 In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
 )}
-Prisma.validator = () => (val) => val
+Prisma.validator = Public.validator
 
+/**
+* Extensions
+*/
+Prisma.getExtensionContext = () => {
+  throw new Error(`Extensions.getExtensionContext is unable to be run in the browser.
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
+)}
+Prisma.defineExtension = () => {
+  throw new Error(`Extensions.defineExtension is unable to be run in the browser.
+In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
+)}
 
 /**
  * Shorthand utilities for JSON filtering
@@ -85,11 +97,8 @@ Prisma.NullTypes = {
 /**
  * Enums
  */
-// Based on
-// https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
-function makeEnum(x) { return x; }
 
-exports.Prisma.AccountScalarFieldEnum = makeEnum({
+exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   type: 'type',
@@ -102,67 +111,68 @@ exports.Prisma.AccountScalarFieldEnum = makeEnum({
   scope: 'scope',
   id_token: 'id_token',
   session_state: 'session_state'
-});
+};
 
-exports.Prisma.ConversationParticipantScalarFieldEnum = makeEnum({
-  id: 'id',
-  userId: 'userId',
-  conversationId: 'conversationId',
-  hasSeenLatestMessage: 'hasSeenLatestMessage',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-});
-
-exports.Prisma.ConversationScalarFieldEnum = makeEnum({
-  id: 'id',
-  latestMessageId: 'latestMessageId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-});
-
-exports.Prisma.MessageScalarFieldEnum = makeEnum({
-  id: 'id',
-  conversationId: 'conversationId',
-  senderId: 'senderId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-});
-
-exports.Prisma.QueryMode = makeEnum({
-  default: 'default',
-  insensitive: 'insensitive'
-});
-
-exports.Prisma.SessionScalarFieldEnum = makeEnum({
+exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   sessionToken: 'sessionToken',
   userId: 'userId',
   expires: 'expires'
-});
+};
 
-exports.Prisma.SortOrder = makeEnum({
-  asc: 'asc',
-  desc: 'desc'
-});
-
-exports.Prisma.UserScalarFieldEnum = makeEnum({
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
   username: 'username',
   emailVerified: 'emailVerified',
   image: 'image'
-});
+};
 
-exports.Prisma.VerificationTokenScalarFieldEnum = makeEnum({
+exports.Prisma.VerificationTokenScalarFieldEnum = {
   id: 'id',
   identifier: 'identifier',
   token: 'token',
   expires: 'expires'
-});
+};
+
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  latestMessageId: 'latestMessageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  helloWorld: 'helloWorld'
+};
+
+exports.Prisma.ConversationParticipantScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  conversationId: 'conversationId',
+  hasSeenLatestMessage: 'hasSeenLatestMessage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  senderId: 'senderId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
 
 
-exports.Prisma.ModelName = makeEnum({
+exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
@@ -170,7 +180,7 @@ exports.Prisma.ModelName = makeEnum({
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
   Message: 'Message'
-});
+};
 
 /**
  * Create the Client

@@ -64,7 +64,6 @@ model Conversation {
   participants ConversationParticipant[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  helloWorld String
 }
 
 // Join Table Conversation - User
