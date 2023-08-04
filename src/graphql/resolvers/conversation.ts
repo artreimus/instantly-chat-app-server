@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { ApolloError } from 'apollo-server-core';
 import { ConversationPopulated, GraphQLContext } from '../../util/types';
+import { withFilter } from 'graphql-subscriptions';
 
 const resolvers = {
   Query: {
@@ -58,7 +59,7 @@ const resolvers = {
       args: { participantIds: Array<string> },
       context: GraphQLContext
     ) => {
-      const { session, prisma } = context;
+      const { session, prisma, pubsub } = context;
       const { participantIds } = args;
 
       if (!session?.user) throw new ApolloError('Not authorized');
@@ -83,6 +84,10 @@ const resolvers = {
           include: conversationPopulated,
         });
 
+        pubsub.publish('CONVERSATION_CREATED', {
+          conversationCreated: conversation,
+        });
+
         return { conversationId: conversation.id };
       } catch (error) {
         console.error('createConversation', error);
@@ -90,7 +95,40 @@ const resolvers = {
       }
     },
   },
+  Subscription: {
+    conversationCreated: {
+      // subscribe: (_: any, __: any, context: GraphQLContext) => {
+      // const { pubsub } = context;
+      // console.log('Subscription hit');
+      // return pubsub.asyncIterator(['CONVERSATION_CREATED']);
+      // },
+      subscribe: withFilter(
+        (_: any, __: any, context: GraphQLContext) => {
+          const { pubsub } = context;
+          console.log('Subscription hit');
+          return pubsub.asyncIterator(['CONVERSATION_CREATED']);
+        },
+        (payload, _, context: GraphQLContext) => {
+          const { session } = context;
+          const {
+            conversationCreated: { participants },
+          } = payload;
+
+          const userIsParticipant = !!participants.find(
+            (p) => p.userId === session?.user?.id
+          );
+
+          console.log(userIsParticipant);
+          return userIsParticipant;
+        }
+      ),
+    },
+  },
 };
+
+export interface ConversationCreatedSubscriptionPayload {
+  conversationCreated: ConversationPopulated;
+}
 
 // return data
 export const participantPopulated =
