@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { ApolloError } from 'apollo-server-core';
+import { GraphQLError } from 'graphql';
 import { ConversationPopulated, GraphQLContext } from '../../util/types';
 import { withFilter } from 'graphql-subscriptions';
 
@@ -12,7 +12,7 @@ const resolvers = {
     ): Promise<Array<ConversationPopulated>> => {
       const { session, prisma } = context;
 
-      if (!session.user) throw new ApolloError('Not authorized');
+      if (!session.user) throw new GraphQLError('Not authorized');
 
       try {
         const {
@@ -49,7 +49,7 @@ const resolvers = {
         );
       } catch (error: any) {
         console.log('conversations error');
-        throw new ApolloError(error?.message);
+        throw new GraphQLError(error?.message);
       }
     },
   },
@@ -62,7 +62,7 @@ const resolvers = {
       const { session, prisma, pubsub } = context;
       const { participantIds } = args;
 
-      if (!session?.user) throw new ApolloError('Not authorized');
+      if (!session?.user) throw new GraphQLError('Not authorized');
 
       const {
         user: { id: userId },
@@ -91,7 +91,7 @@ const resolvers = {
         return { conversationId: conversation.id };
       } catch (error) {
         console.error('createConversation', error);
-        throw new ApolloError('Error creating conversation');
+        throw new GraphQLError('Error creating conversation');
       }
     },
   },

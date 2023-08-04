@@ -1,4 +1,4 @@
-import { ApolloError } from 'apollo-server-core';
+import { GraphQLError } from 'graphql';
 import { CreateUsernameResponse, GraphQLContext } from '../../util/types';
 
 const resolvers = {
@@ -13,7 +13,7 @@ const resolvers = {
 
       if (!session?.user) {
         // Frontend catches the error
-        throw new ApolloError('Not authorized');
+        throw new GraphQLError('Not authorized');
       }
 
       const {
@@ -35,7 +35,7 @@ const resolvers = {
         return users;
       } catch (error: any) {
         console.error('searchedUsers', error);
-        throw new ApolloError(error?.message);
+        throw new GraphQLError(error?.message);
       }
     },
   },
