@@ -94,9 +94,9 @@ async function main() {
 
   // Now that our HTTP server is fully set up, we can listen to it.
   await new Promise<void>((resolve) =>
-    httpServer.listen({ host: process.env.CLIENT_ORIGIN }, resolve)
+    httpServer.listen({ port: process.env.PORT || PORT }, resolve)
   );
-  console.log(`Server is now running on ${process.env.CLIENT_ORIGIN}`);
+  console.log(`Server is now running on ${process.env.PORT || PORT}`);
 }
 
 main().catch((err) => console.log(err));
