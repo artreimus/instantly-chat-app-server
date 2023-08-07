@@ -68,7 +68,7 @@ const resolvers = {
       const { id: userId } = session.user;
       const { id: messageId, senderId, conversationId, body } = args;
 
-      if (userId !== senderId) throw new GraphQLError('Not Authorized');
+      // if (userId !== senderId) throw new GraphQLError('Not Authorized');
 
       try {
         // Create new message
@@ -87,16 +87,19 @@ const resolvers = {
 
         if (!participant) throw new GraphQLError('Participant not found');
 
+        const { id: participantId } = participant;
+
         // Update conversation entity
         const conversation = await prisma.conversation.update({
-          where: { id: conversationId },
+          where: {
+            id: conversationId,
+          },
           data: {
             latestMessageId: newMessage.id,
             participants: {
               update: {
-                // update sender participant
                 where: {
-                  id: participant.id,
+                  id: participantId,
                 },
                 data: {
                   hasSeenLatestMessage: true,
@@ -104,30 +107,31 @@ const resolvers = {
               },
               updateMany: {
                 where: {
-                  NOT: {
-                    userId: senderId,
+                  userId: {
+                    not: userId,
                   },
                 },
-                data: { hasSeenLatestMessage: false },
+                data: {
+                  hasSeenLatestMessage: false,
+                },
               },
             },
           },
           include: conversationPopulated,
         });
 
+        // this will call messageSent subscription
         pubsub.publish(
           'MESSAGE_SENT',
-          // this will call messageSent subscription
+          // payload
           { messageSent: newMessage }
         );
 
-        // pubsub.publish(
-        //   'CONVERSATION_UPDATED',
-        //   // this will call conversationUpdated subscription
-        //   {
-        //     conversationUpdated: { conversation },
-        //   }
-        // );
+        // this will call conversationUpdated subscription
+        pubsub.publish('CONVERSATION_UPDATED', {
+          // payload
+          conversationUpdated: { conversation },
+        });
       } catch (error: any) {
         console.log('sendMessageError', error.message);
         throw new GraphQLError('Error sending emssage');
