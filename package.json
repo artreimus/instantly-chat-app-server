@@ -5,8 +5,8 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon src/index.ts",
-    "start": "node src/index.ts"
+    "dev": "nodemon src/index",
+    "start": "node dist/index"
   },
   "keywords": [],
   "author": "",
